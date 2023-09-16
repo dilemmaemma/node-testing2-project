@@ -8,7 +8,7 @@ function find() {
         .orderBy('g.time')
 }
 
-function findByUsername(username) {
+function findByUsername({username}) {
     return db('username as u')
         .leftJoin('gamemode as g', 'u.gamemode_id', 'g.gamemode_id')
         .leftJoin('difficulty as d', 'g.difficulty_id', 'd.difficulty_id')
@@ -52,8 +52,8 @@ async function add({ name, gamemode, seconds, ip_address }) {
                 gamemode_id_to_use = gamemode_id
             }
     
-            const [names] = await trx('username').insert({ username_id_to_use, name, ip_address, gamemode_id_to_use})
-            const [times] = await trx('gamemode').insert({ gamemode_id_to_use, seconds, difficulty_id_to_use })
+            const [names] = await trx('username').insert({ username_id: username_id_to_use, name, ip_address, gamemode_id: gamemode_id_to_use})
+            const [times] = await trx('gamemode').insert({ gamemode_id: gamemode_id_to_use, seconds, difficulty_id: difficulty_id_to_use })
     
             created_user = names
             created_time = times
@@ -67,7 +67,6 @@ async function add({ name, gamemode, seconds, ip_address }) {
 
 module.exports = {
     find,
-    findBy,
     findByUsername,
     add
 }

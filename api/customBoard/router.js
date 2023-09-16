@@ -4,6 +4,7 @@ const { confirmation } = require('./middleware')
 router.get('/test', (req, res) => {
     res.json({message: 'Custom board test route is working'})
 })
+
 router.get('/board', (req, res, next) => {
     const { width, height, bombs } = req.body
 
